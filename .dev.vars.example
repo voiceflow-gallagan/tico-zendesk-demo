@@ -1,0 +1,4 @@
+VALID_API_KEY=Any secret to authorize webhook requests
+VF_API_KEY=Your Voiceflow agent API Key
+VF_PROJECT_ID=Your Voiceflow project ID
+VF_VERSION_ID=Can be development or production
