@@ -44,7 +44,7 @@ export default {
 			return new Response(
 				JSON.stringify({
 					name: 'Tico Zendesk',
-					version: '0.1 BETA',
+					version: '0.1.1 BETA',
 				}),
 				{
 					status: 200,
