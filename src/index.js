@@ -66,7 +66,7 @@ export default {
 				const userEmail = (payload?.requesterEmail && payload.requesterEmail.toLowerCase()) || null;
 				console.log('userEmail:', userEmail);
 
-				if (!userEmail || userEmail != 'nicolas@gallagan.fr') {
+				if (!userEmail || (userEmail != 'nicolas@gallagan.fr' && userEmail != 'nicolas.arcay@voiceflow.com')) {
 					return new Response(JSON.stringify({ status: 'ignore', payload }), {
 						status: 200,
 						headers: { 'Content-Type': 'application/json' },
