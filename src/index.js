@@ -44,7 +44,7 @@ export default {
 			return new Response(
 				JSON.stringify({
 					name: 'Tico Zendesk',
-					version: '0.1.1 BETA',
+					version: '0.1.2 BETA',
 				}),
 				{
 					status: 200,
@@ -81,7 +81,7 @@ export default {
 				ctx.waitUntil(
 					(async () => {
 						// const vfUrl = `https://general-runtime.voiceflow.com/state/user/${userID}-${timestamp}/interact?logs=off`;
-						const vfUrl = `https://general-runtime.voiceflow.com/state/user/zdticket1-${userID}/interact?logs=off`;
+						const vfUrl = `https://general-runtime.voiceflow.com/state/user/zdcf1-${userID}/interact?logs=off`;
 						const vfBody = JSON.stringify({
 							action: {
 								type: 'event',
