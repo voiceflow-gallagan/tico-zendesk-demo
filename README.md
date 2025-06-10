@@ -4,6 +4,8 @@ This project is a Cloudflare Worker that integrates with Zendesk and Voiceflow.
 
 > **Need help to set up Zendesk webhooks and triggers?** See the step-by-step guide: [extra/zendesk/README.zendesk.md](extra/zendesk/README.zendesk.md)
 
+> **Try the Voiceflow demo!** A ready-to-import Voiceflow project (`ZendeskEmailDemo.vf`) is available in `/extra/voiceflow`. Import it into your Voiceflow workspace, import some docs in the knowledge base and connect the Zendesk integration to test the full workflow.
+
 ---
 
 ## Alternative: n8n Workflow
