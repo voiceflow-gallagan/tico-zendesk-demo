@@ -18,7 +18,7 @@ function encodeEmail(email) {
 
 function generateSessionID(email) {
 	const userID = encodeEmail(email);
-	const timestamp = Date.now(); // milliseconds since epoch
+	const timestamp = Date.now();
 	return `${userID}-${timestamp}`;
 }
 
@@ -112,13 +112,13 @@ export default {
 						console.log('Status:', vfResponse.status);
 						console.log('Status Text:', vfResponse.statusText);
 
-						// 2. Prepare and send transcript request
+						// Prepare and send transcript request
 						const transcriptUrl = 'https://api.voiceflow.com/v2/transcripts';
 						const transcriptBody = JSON.stringify({
 							user: {
 								name: userEmail, // or pull from elsewhere if you have better display names
 							},
-							sessionID: sessionID, // or whatever you use for the session/user ID
+							sessionID: sessionID,
 							versionID: VF_VERSION_ID,
 							projectID: VF_PROJECT_ID,
 							browser: 'zendesk',

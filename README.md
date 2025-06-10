@@ -2,6 +2,15 @@
 
 This project is a Cloudflare Worker that integrates with Zendesk and Voiceflow.
 
+> **Need help to set up Zendesk webhooks and triggers?** See the step-by-step guide: [extra/zendesk/README.zendesk.md](extra/zendesk/README.zendesk.md)
+
+---
+
+## Alternative: n8n Workflow
+If you prefer a no-code/low-code automation approach, you can use the provided n8n workflow instead of the Cloudflare Worker. The n8n workflow connects Zendesk and Voiceflow using a visual automation tool. See [extra/n8n/README.n8n.md](extra/n8n/README.n8n.md) for setup and details.
+
+---
+
 ## Features
 - Webhook endpoint for Zendesk (`/webhook`)
 - Health check endpoint (`/health`)
@@ -95,4 +104,6 @@ This will start the worker locally at [http://localhost:8787](http://localhost:8
 
 ## Example `.dev.vars`
 See `.dev.vars.example` in the repo for the required variables.
+
+
 

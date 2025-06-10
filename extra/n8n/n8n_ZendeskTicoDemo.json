@@ -1,0 +1,175 @@
+{
+  "name": "Zendesk Tico Demo",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "34890466-567e-45d3-924f-d2eb4254cc04",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "274e4dd4-a5ca-41e7-b671-04ab110aa6ea",
+      "name": "Webhook",
+      "webhookId": "34890466-567e-45d3-924f-d2eb4254cc04"
+    },
+    {
+      "parameters": {
+        "jsCode": "function encodeEmail(email) {\n  // Manual Base64 encoding\n  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';\n  let result = '';\n  let i = 0;\n  \n  while (i < email.length) {\n    const a = email.charCodeAt(i++);\n    const b = i < email.length ? email.charCodeAt(i++) : 0;\n    const c = i < email.length ? email.charCodeAt(i++) : 0;\n    \n    const bitmap = (a << 16) | (b << 8) | c;\n    \n    result += chars.charAt((bitmap >> 18) & 63);\n    result += chars.charAt((bitmap >> 12) & 63);\n    result += i - 2 < email.length ? chars.charAt((bitmap >> 6) & 63) : '=';\n    result += i - 1 < email.length ? chars.charAt(bitmap & 63) : '=';\n  }\n  \n  // Apply URL-safe replacements and remove padding\n  return result.replace(/=+$/, \"\").replace(/\\+/g, \"-\").replace(/\\//g, \"_\");\n}\n\nfunction generateSessionID(email) {\n  const userID = encodeEmail(email);\n  const timestamp = Date.now();\n  return `${userID}-${timestamp}`;\n}\n\nlet sessionID = generateSessionID($input.first().json.body.requesterEmail)\nlet userID = encodeEmail($input.first().json.body.requesterEmail);\n\nreturn { sessionID, userID};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        180,
+        0
+      ],
+      "id": "36628a90-1fd4-497c-b256-735118973b94",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://api.voiceflow.com/v2/transcripts",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n              \"user\": {\n                 \"name\": \"{{ $('Webhook').item.json.body.requesterEmail }}\"\n              },\n              \"sessionID\": \"{{ $('Code').item.json.sessionID }}\",\n              \"versionID\": \"development\",\n              \"projectID\": \"683ebe57abe040bae572b18d\",\n              \"browser\": \"zendesk\"\n            }",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        540,
+        0
+      ],
+      "id": "2e3060b5-cbcf-4bdc-b373-5716e1d8a374",
+      "name": "Save Transcript",
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "pHT1QH8HG3893Qea",
+          "name": "Tico Zendesk Demo"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://general-runtime.voiceflow.com/state/user/zdn8n2-{{ $json.userID }}/interact?logs=off",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "sessionID",
+              "value": "={{ $json.sessionID }}"
+            },
+            {
+              "name": "versionID",
+              "value": "development"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n              \"action\": {\n                \"type\": \"event\",\n                \"payload\": {\n                  \"event\": {\n                    \"name\": \"answer_email\",\n                    \"data\": {\n                      \"requesterEmail\":\"{{ $('Webhook').item.json.body.requesterEmail }}\",\n                      \"ticketId\": \"{{ $('Webhook').item.json.body.ticketId }}\",\n\"ticketStatus\":\"{{ $('Webhook').item.json.body.ticketStatus }}\",\n\"requesterName\":\"{{ $('Webhook').item.json.body.requesterName }}\",\n\"ticketSubject\":{{ $('Webhook').item.json.body.ticketSubject.toJsonString() }},\n\"ticketDescription\":{{ $('Webhook').item.json.body.ticketDescription.toJsonString() }},\n\"ticketLatestComment\":{{ $('Webhook').item.json.body.ticketLatestComment.toJsonString() }},\n                      \"sessionID\":\"{{ $json.sessionID }}\"\n                    }\n                  }\n                }\n              },\n              \"config\": {\n                \"tts\": false,\n                \"stripSSML\": true,\n                \"stopAll\": false,\n                \"excludeTypes\": [\"block\", \"debug\", \"flow\"]\n              }\n} ",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        360,
+        0
+      ],
+      "id": "563dc112-5da1-474a-8e38-97568d211769",
+      "name": "Voiceflow API",
+      "alwaysOutputData": true,
+      "executeOnce": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "pHT1QH8HG3893Qea",
+          "name": "Tico Zendesk Demo"
+        }
+      },
+      "onError": "continueRegularOutput"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Voiceflow API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Transcript": {
+      "main": [
+        []
+      ]
+    },
+    "Voiceflow API": {
+      "main": [
+        [
+          {
+            "node": "Save Transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "bf79c283-8c3e-420c-ac36-50646eb75755",
+  "meta": {
+    "instanceId": "d1e1439b20c3c564864d2a44ce875f312675e3af8138722b2724ff19c7b6c2b7"
+  },
+  "id": "3TyKStuhs8olL6xw",
+  "tags": []
+}
