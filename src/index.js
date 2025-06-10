@@ -1,5 +1,5 @@
 /**
- * Welcome to Cloudflare Workers! This is your first worker.
+ * Welcome to Cloudflare Workers!
  *
  * - Run "npm run dev" in your terminal to start a development server
  * - Open a browser tab at http://localhost:8787/ to see your worker in action
@@ -64,14 +64,6 @@ export default {
 				console.log('--- Incoming Zendesk Webhook ---');
 				console.log('Payload:', JSON.stringify(payload, null, 2));
 				const userEmail = (payload?.requesterEmail && payload.requesterEmail.toLowerCase()) || null;
-				console.log('userEmail:', userEmail);
-
-				if (!userEmail || (userEmail != 'nicolas@gallagan.fr' && userEmail != 'nicolas.arcay@voiceflow.com')) {
-					return new Response(JSON.stringify({ status: 'ignore', payload }), {
-						status: 200,
-						headers: { 'Content-Type': 'application/json' },
-					});
-				}
 
 				const userID = encodeEmail(userEmail);
 				const timestamp = Date.now();
@@ -80,7 +72,6 @@ export default {
 
 				ctx.waitUntil(
 					(async () => {
-						// const vfUrl = `https://general-runtime.voiceflow.com/state/user/${userID}-${timestamp}/interact?logs=off`;
 						const vfUrl = `https://general-runtime.voiceflow.com/state/user/zdcf1-${userID}/interact?logs=off`;
 						const vfBody = JSON.stringify({
 							action: {
