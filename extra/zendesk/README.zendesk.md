@@ -78,10 +78,7 @@ Paste the following JSON in the POST body:
 	"requesterName":"{{ticket.requester.name}}",
 	"requesterFirstname":"{{ticket.requester.first_name}}",
 	"requesterEmail":"{{ticket.requester.email}}",
-	"requesterLastname":"{{ticket.requester.last_name}}",
-	"requesterPlanType":"{{ticket.ticket_field_5661060584461}}",
-	"requesterCBPlanType":"{{ticket.ticket_field_28352035440141}}",
-	"requesterId":"{{ticket.ticket_field_15612854194701}}"
+	"requesterLastname":"{{ticket.requester.last_name}}"
 }
 ```
 
