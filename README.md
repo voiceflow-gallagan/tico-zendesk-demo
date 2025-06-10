@@ -1,4 +1,4 @@
-# Tico Zendesk Cloudflare Worker
+# Tico Zendesk Email Demo
 
 This project demonstrates how to integrate Zendesk and Voiceflow using webhooks and conversational AI agents. It uses Zendesk webhooks to trigger events in a Voiceflow project whenever a ticket is created or updated. The Voiceflow agent then analyzes the ticket, leverages its knowledge base, and automatically replies to the user's email with a helpful response. This setup enables automated, intelligent support workflows between Zendesk and Voiceflow.
 
