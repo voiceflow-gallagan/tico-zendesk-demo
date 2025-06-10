@@ -1,6 +1,10 @@
 # Tico Zendesk Cloudflare Worker
 
-This project is a Cloudflare Worker that integrates with Zendesk and Voiceflow.
+This project demonstrates how to integrate Zendesk and Voiceflow using webhooks and conversational AI agents. It uses Zendesk webhooks to trigger events in a Voiceflow project whenever a ticket is created or updated. The Voiceflow agent then analyzes the ticket, leverages its knowledge base, and automatically replies to the user's email with a helpful response. This setup enables automated, intelligent support workflows between Zendesk and Voiceflow.
+
+You can choose between two integration options provided in this repository:
+- **Cloudflare Worker**: A serverless function to handle Zendesk webhook events and forward them to Voiceflow.
+- **n8n Workflow**: A no-code/low-code automation workflow for connecting Zendesk and Voiceflow visually.
 
 > **Need help to set up Zendesk webhooks and triggers?** See the step-by-step guide: [extra/zendesk/README.zendesk.md](extra/zendesk/README.zendesk.md)
 
