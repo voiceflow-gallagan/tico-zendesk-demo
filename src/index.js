@@ -113,7 +113,7 @@ export default {
 						console.log('Status Text:', vfResponse.statusText);
 
 						// Prepare and send transcript request
-						const transcriptUrl = 'https://api.voiceflow.com/v2/transcripts';
+						/* const transcriptUrl = 'https://api.voiceflow.com/v2/transcripts';
 						const transcriptBody = JSON.stringify({
 							user: {
 								name: userEmail, // or pull from elsewhere if you have better display names
@@ -132,7 +132,7 @@ export default {
 								authorization: VF_API_KEY,
 							},
 							body: transcriptBody,
-						});
+						}); */
 					})()
 				);
 
